@@ -1,0 +1,472 @@
+<!doctype html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeeLoo Commerce</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --ink:#14213D;
+    --paper:#FAF6EE;
+    --paper-raised:#F3EDDF;
+    --amber:#C97A2E;
+    --amber-strong:#B36A22;
+    --teal:#2E6E62;
+    --text:#24262B;
+    --text-soft:#5B5A52;
+    --line:#DCD1B8;
+    --card-bg:#FFFFFF;
+    --nav-bg:rgba(250,246,238,0.86);
+    --focus:#B36A22;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#0B0F1A;
+      --paper:#11151F;
+      --paper-raised:#171C29;
+      --amber:#E1974C;
+      --amber-strong:#F0AC63;
+      --teal:#5FA694;
+      --text:#EDE9DE;
+      --text-soft:#A6A395;
+      --line:#2C3140;
+      --card-bg:#161B27;
+      --nav-bg:rgba(11,15,26,0.86);
+      --focus:#E1974C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#0B0F1A;
+    --paper:#11151F;
+    --paper-raised:#171C29;
+    --amber:#E1974C;
+    --amber-strong:#F0AC63;
+    --teal:#5FA694;
+    --text:#EDE9DE;
+    --text-soft:#A6A395;
+    --line:#2C3140;
+    --card-bg:#161B27;
+    --nav-bg:rgba(11,15,26,0.86);
+    --focus:#E1974C;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--text);
+    font-family:'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight:600;
+    text-wrap:balance;
+    margin:0;
+    color:var(--text);
+  }
+
+  a{color:inherit;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--focus); outline-offset:3px;}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--amber-strong);
+  }
+
+  .wrap{max-width:1120px; margin:0 auto; padding-inline:32px;}
+  @media (max-width:640px){ .wrap{padding-inline:20px;} }
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky; top:0; z-index:40;
+    background:var(--nav-bg);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .navrow{
+    display:flex; align-items:center; justify-content:space-between;
+    height:76px;
+  }
+  .brand{display:flex; align-items:center; gap:12px; text-decoration:none;}
+  .brand svg{display:block;}
+  .brand-word{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.18rem; letter-spacing:0.01em;
+    color:var(--text);
+  }
+  .brand-word small{
+    display:block; font-family:'IBM Plex Mono', monospace; font-weight:400;
+    font-size:0.62rem; letter-spacing:0.18em; color:var(--text-soft); margin-top:2px;
+  }
+  nav.links{display:flex; gap:28px;}
+  nav.links a{
+    font-size:0.88rem; font-weight:600; text-decoration:none; color:var(--text-soft);
+    transition:color .15s ease;
+  }
+  nav.links a:hover{color:var(--amber-strong);}
+  @media (max-width:760px){ nav.links{display:none;} }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--amber); color:#1A1000;
+    font-weight:700; font-size:0.92rem;
+    padding:12px 22px; border-radius:2px;
+    text-decoration:none; border:none; cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .btn:hover{background:var(--amber-strong); transform:translateY(-1px);}
+  :root[data-theme="dark"] .btn, @media (prefers-color-scheme:dark){ .btn{color:#1A1000;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    padding:96px 0 84px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .wrap{position:relative; z-index:2;}
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
+  }
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{
+    font-size:clamp(2.3rem, 4.6vw, 3.6rem);
+    line-height:1.06;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--amber-strong);
+  }
+  .hero p.lede{
+    margin-top:22px; max-width:52ch;
+    font-size:1.08rem; color:var(--text-soft);
+  }
+  .hero-cta{margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;}
+  .hero-cta .ghost{
+    font-weight:600; font-size:0.92rem; text-decoration:none; color:var(--text);
+    border-bottom:1px solid var(--amber-strong); padding-bottom:2px;
+  }
+
+  .route-card{
+    background:var(--ink); border-radius:4px; padding:28px 26px 24px;
+    position:relative; overflow:hidden;
+  }
+  .route-card .route-label{
+    display:flex; justify-content:space-between; font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.1em; color:#C7C2B2; text-transform:uppercase;
+  }
+  .route-card .route-label b{color:var(--amber-strong); font-weight:500;}
+  .route-svg{width:100%; height:auto; margin:18px 0 6px;}
+  .route-line{
+    stroke:var(--amber-strong); stroke-width:2; fill:none;
+    stroke-dasharray:340; stroke-dashoffset:340;
+    animation:draw 2.6s ease forwards 0.4s;
+  }
+  @keyframes draw{ to{stroke-dashoffset:0;} }
+  .route-dot{fill:#F2EDE2;}
+  .route-dot.origin{fill:var(--teal);}
+  .route-foot{
+    display:flex; justify-content:space-between; margin-top:10px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:#8F8B7C;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:88px 0;}
+  section.alt{background:var(--paper-raised); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+
+  .section-head{
+    display:grid; grid-template-columns:220px 1fr; gap:40px; margin-bottom:44px;
+  }
+  @media (max-width:760px){ .section-head{grid-template-columns:1fr; gap:14px;} }
+  .section-head h2{font-size:clamp(1.6rem, 3vw, 2.05rem);}
+  .section-head .eyebrow{padding-top:6px;}
+
+  .prose{max-width:66ch; color:var(--text-soft); font-size:1.02rem;}
+  .prose p + p{margin-top:16px;}
+  .prose strong{color:var(--text); font-weight:600;}
+
+  .col2{display:grid; grid-template-columns:220px 1fr; gap:40px;}
+  @media (max-width:760px){ .col2{grid-template-columns:1fr;} }
+
+  .card-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); margin-top:8px;
+  }
+  @media (max-width:760px){ .card-grid{grid-template-columns:1fr;} }
+  .card{background:var(--card-bg); padding:28px 26px;}
+  .card .num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--amber-strong); letter-spacing:0.08em;}
+  .card h3{font-size:1.12rem; margin-top:10px;}
+  .card p{margin-top:10px; color:var(--text-soft); font-size:0.95rem;}
+
+  /* logistics banner */
+  .banner{
+    background:var(--ink); color:#F2EDE2; padding:84px 0;
+  }
+  .banner .wrap{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:end;}
+  @media (max-width:760px){ .banner .wrap{grid-template-columns:1fr;} }
+  .banner .eyebrow{color:#8F8B7C;}
+  .banner h2{
+    color:#F2EDE2; font-size:clamp(1.7rem, 3.4vw, 2.5rem); line-height:1.16;
+  }
+  .banner h2 span{color:var(--amber-strong);}
+  .banner p{color:#C7C2B2; max-width:48ch; font-size:1.02rem;}
+  .metric-row{display:flex; gap:36px; margin-top:26px; flex-wrap:wrap;}
+  .metric{border-left:2px solid var(--amber-strong); padding-left:14px;}
+  .metric .label{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:#8F8B7C;}
+  .metric .value{font-family:'Fraunces', serif; font-size:1.3rem; margin-top:4px; color:#F2EDE2;}
+
+  /* partners */
+  .partner-list{margin-top:8px; border-top:1px solid var(--line);}
+  .partner-row{
+    display:grid; grid-template-columns:220px 1fr; gap:40px;
+    padding:22px 0; border-bottom:1px solid var(--line);
+  }
+  @media (max-width:760px){ .partner-row{grid-template-columns:1fr; gap:6px;} }
+  .partner-row .tag{font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--text-soft);}
+  .partner-row p{margin:0; color:var(--text-soft);}
+  .partner-row strong{color:var(--text);}
+
+  /* network */
+  .network-panel{
+    margin-top:8px; background:var(--card-bg); border:1px solid var(--line);
+    border-radius:4px; padding:36px; display:flex; gap:28px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+  }
+  .network-panel p{margin:0; max-width:50ch; color:var(--text-soft);}
+
+  /* contact */
+  .contact{background:var(--ink); color:#F2EDE2;}
+  .contact .eyebrow{color:#8F8B7C;}
+  .contact h2{color:#F2EDE2;}
+  .contact-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; margin-top:34px;}
+  @media (max-width:760px){ .contact-grid{grid-template-columns:1fr;} }
+  .contact p.lede{color:#C7C2B2; max-width:50ch; font-size:1.02rem;}
+  .contact-card{
+    background:#171C29; border:1px solid #2C3140; border-radius:4px; padding:30px;
+  }
+  .contact-card .row{display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #2C3140;}
+  .contact-card .row:last-child{border-bottom:none;}
+  .contact-card .k{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:#8F8B7C;}
+  .contact-card .v{font-weight:600; text-align:right;}
+  .contact-card .v a{text-decoration:none; color:var(--amber-strong);}
+  .contact-note{margin-top:16px; font-size:0.82rem; color:#8F8B7C;}
+
+  footer{
+    padding:30px 0; background:var(--ink); border-top:1px solid #2C3140;
+  }
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  footer .fbrand{display:flex; align-items:center; gap:10px; color:#8F8B7C; font-size:0.82rem;}
+  footer .fbrand svg{opacity:0.75;}
+  footer .fnote{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:#5C5849;}
+</style>
+
+<header class="site">
+  <div class="wrap navrow">
+    <a class="brand" href="#top" aria-label="LeeLoo Commerce home">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <circle cx="17" cy="17" r="16" fill="none" stroke="var(--amber)" stroke-width="1.4"/>
+        <path d="M7 22 Q17 6 27 12" fill="none" stroke="var(--amber)" stroke-width="1.6"/>
+        <circle cx="7" cy="22" r="2.4" fill="var(--teal)"/>
+        <circle cx="27" cy="12" r="2.4" fill="var(--amber)"/>
+      </svg>
+      <span class="brand-word">LeeLoo Commerce<small>SOURCING &amp; DISTRIBUTION</small></span>
+    </a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#approach">Approach</a>
+      <a href="#sourcing">Sourcing</a>
+      <a href="#logistics">Logistics</a>
+      <a href="#partners">Partners</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn" href="#contact">Start a conversation</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Southeast Asia → United States</p>
+        <h1>Bringing reliable products across the Pacific, <em>on schedule.</em></h1>
+        <p class="lede">LeeLoo Commerce LLC is a U.S.-based commercial company focused on sourcing, commercializing, and distributing selected products and components from Southeast Asia into the United States and other markets.</p>
+        <div class="hero-cta">
+          <a class="btn" href="#contact">Discuss a partnership</a>
+          <a class="ghost" href="#sourcing">See how sourcing works ↓</a>
+        </div>
+      </div>
+      <div class="route-card">
+        <div class="route-label"><span>Origin — <b>Southeast Asia</b></span><span>Destination — <b>United States</b></span></div>
+        <svg class="route-svg" viewBox="0 0 300 110" role="img" aria-label="Trade route from Southeast Asia to the United States">
+          <path class="route-line" d="M20 90 Q150 10 280 40" />
+          <circle class="route-dot origin" cx="20" cy="90" r="4.5"/>
+          <circle class="route-dot" cx="280" cy="40" r="4.5"/>
+        </svg>
+        <div class="route-foot"><span>Manufacturers · Suppliers</span><span>Commercial channels</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap col2">
+      <div><p class="eyebrow">About LeeLoo Commerce</p></div>
+      <div class="prose">
+        <p>We work with manufacturers, suppliers, and distribution partners to identify reliable products and develop efficient commercial channels for the U.S. market.</p>
+        <p>Our approach combines <strong>international sourcing</strong> with a strong focus on <strong>logistics, responsiveness, and long-term supplier relationships</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="approach">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Our Approach</p>
+        <h2>Commerce is a supply channel, not a single transaction.</h2>
+      </div>
+      <div class="col2">
+        <div></div>
+        <div class="prose">
+          <p>At LeeLoo Commerce, we believe that successful international commerce depends on more than simply finding a product.</p>
+          <p>We focus on <strong>building efficient supply channels</strong>, maintaining <strong>clear communication</strong> with our partners, and responding quickly to changing market requirements.</p>
+          <p>Our structure allows us to evaluate products across different commercial segments while maintaining a practical and focused approach to each opportunity.</p>
+        </div>
+      </div>
+      <div class="card-grid">
+        <div class="card">
+          <p class="num">Channel</p>
+          <h3>Efficient supply channels</h3>
+          <p>Built around product availability, not assumptions.</p>
+        </div>
+        <div class="card">
+          <p class="num">Communication</p>
+          <h3>Clear, direct partner contact</h3>
+          <p>Fewer intermediaries, faster decisions.</p>
+        </div>
+        <div class="card">
+          <p class="num">Focus</p>
+          <h3>Practical, segment by segment</h3>
+          <p>Each opportunity evaluated on its own terms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sourcing">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Sourcing &amp; Distribution</p>
+        <h2>Southeast Asia in, United States out.</h2>
+      </div>
+      <div class="col2">
+        <div class="tag eyebrow" style="color:var(--text-soft); text-transform:none; letter-spacing:0;">01 / Sourcing</div>
+        <div class="prose">
+          <p>Our sourcing activities are primarily focused on <strong>Southeast Asia</strong>, where we work to identify manufacturers and suppliers offering competitive products, consistent quality, and reliable production capabilities.</p>
+        </div>
+      </div>
+      <div class="col2" style="margin-top:26px;">
+        <div class="tag eyebrow" style="color:var(--text-soft); text-transform:none; letter-spacing:0;">02 / Distribution</div>
+        <div class="prose">
+          <p>For the U.S. market, we develop distribution channels designed around <strong>product availability, logistics efficiency, and market demand</strong>.</p>
+          <p>We are continuously expanding our network of commercial partners and evaluating new product opportunities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="banner" id="logistics">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Logistics &amp; Response</p>
+        <h2>Fast response. Reliable logistics. <span>Efficient execution.</span></h2>
+      </div>
+      <div>
+        <p>International commerce requires coordination across multiple stages of the supply chain. Our structure is designed to keep communication and decision-making simple, allowing us to respond quickly to supplier opportunities, product requirements, and changing market conditions.</p>
+        <div class="metric-row">
+          <div class="metric"><div class="label">Emphasis</div><div class="value">Logistics planning</div></div>
+          <div class="metric"><div class="label">Emphasis</div><div class="value">Sourcing efficiency</div></div>
+          <div class="metric"><div class="label">Emphasis</div><div class="value">Dependable fulfillment</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="partners">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Our Partners</p>
+        <h2>Built for long-term relationships, not one-off orders.</h2>
+      </div>
+      <div class="partner-list">
+        <div class="partner-row">
+          <div class="tag">Manufacturers</div>
+          <p>We value long-term relationships with manufacturers, distributors, and commercial partners.</p>
+        </div>
+        <div class="partner-row">
+          <div class="tag">Objective</div>
+          <p>Our objective is to develop relationships based on <strong>clear communication, consistency, and mutual growth</strong>.</p>
+        </div>
+        <div class="partner-row">
+          <div class="tag">Open door</div>
+          <p>We are always interested in connecting with established manufacturers and suppliers looking to expand their presence in the United States.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Expanding Our Network</p>
+        <h2>Evaluating new products, suppliers, and opportunities — continuously.</h2>
+      </div>
+      <div class="network-panel">
+        <p>LeeLoo Commerce is continuously evaluating new products, suppliers, and commercial opportunities. If you are a manufacturer, distributor, or supplier interested in developing new U.S. market channels, we welcome the opportunity to learn more about your products and capabilities.</p>
+        <a class="btn" href="#contact">Introduce your company</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <p class="eyebrow">Contact Us</p>
+      <div class="contact-grid">
+        <div>
+          <h2>Let's discuss a potential partnership.</h2>
+          <p class="lede">If you are interested in working with LeeLoo Commerce, please contact our commercial team with information about your company, products, and distribution capabilities. We are always open to exploring new opportunities with qualified suppliers and manufacturers.</p>
+        </div>
+        <div class="contact-card">
+          <div class="row"><span class="k">Email</span><span class="v"><a href="mailto:info@leeloocommerce.com">info@leeloocommerce.com</a></span></div>
+          <div class="row"><span class="k">Phone</span><span class="v"><a href="tel:+13074359044">+1 (307) 435 9044</a></span></div>
+          <div class="row"><span class="k">Principal office</span><span class="v">6770 Indian Creek Dr Ph R<br>Miami Beach, FL 33141</span></div>
+          <div class="row"><span class="k">Sourcing contact<br>(Southeast Asia)</span><span class="v">Chon Buri, Thailand</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fbrand">
+      <svg width="20" height="20" viewBox="0 0 34 34" aria-hidden="true">
+        <circle cx="17" cy="17" r="16" fill="none" stroke="#8F8B7C" stroke-width="1.4"/>
+        <path d="M7 22 Q17 6 27 12" fill="none" stroke="#8F8B7C" stroke-width="1.6"/>
+      </svg>
+      <span>LeeLoo Commerce LLC</span>
+    </div>
+    <span class="fnote">© 2026 LeeLoo Commerce LLC — U.S. sourcing &amp; distribution</span>
+  </div>
+</footer>
