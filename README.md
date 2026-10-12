@@ -1,13 +1,14 @@
 # LeeLoo Commerce — sitio web (leeloocommerce.com)
 
-Sitio estático de una sola página (`index.html`), servido con nginx en un contenedor Docker.
+Sitio estático (`index.html` + páginas de políticas), servido con nginx en un contenedor Docker.
 Migrado desde el hosting compartido de Spaceship al VPS de Contabo (Coolify).
 
 ## Archivos
 
 | Archivo | Para qué |
 |---|---|
-| `index.html` | El sitio completo |
+| `index.html` | Página principal |
+| `terms.html`, `refund-policy.html`, `privacy.html` | Políticas (las pide Stripe) |
 | `Dockerfile` | Imagen nginx que sirve el sitio |
 | `nginx.conf` | Compresión gzip y cabeceras de seguridad básicas |
 
